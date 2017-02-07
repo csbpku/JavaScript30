@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>JS Drum Kit</title>
   <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
@@ -57,10 +58,78 @@
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
+
 <script>
 
-</script>
+function playsound(e) 
+{
+  /*
+  const keyCode = event.keyCode;
+  
+  var keys = document.getElementsByClassName("keys")[0];
+  for(var i = 0; i < keys.children.length; ++i) 
+  {
+    var key = keys.children[i];
 
+    if(parseInt(key.getAttribute("data-key")) === keyCode) 
+    {
+      key.classList.add("playing");
+    }
+  }
+
+  var audios = document.getElementsByTagName("audio") 
+  for(var i = 0; i < audios.length; ++i) 
+  {
+    var audio = audios[i];
+
+    if(parseInt(audio.getAttribute("data-key")) === keyCode) 
+    {
+      audio.play();
+    }
+  }
+  */
+  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+  const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+  if(!audio) return;
+  audio.currentTime = 0;
+  audio.play();
+  key.classList.add("playing");
+}
+
+
+/*
+document.addEventListener('keyup', (event) => {
+  const keyCode = event.key.toUpperCase().charCodeAt(0);
+
+  var keys = document.getElementsByClassName("keys")[0];
+  
+  for(var i = 0; i < keys.children.length; ++i) 
+  {
+    var key = keys.children[i];
+
+    if(parseInt(key.getAttribute("data-key")) === keyCode) 
+    {
+      key.classList.remove("playing");
+    }
+  }
+
+ const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
+ key.classList.remove("playing");
+}, false);
+*/
+function removeTransition(e) 
+{
+  if(e.propertyName != 'transform') return;
+  this.classList.remove("playing");
+}
+
+
+const keys = document.querySelectorAll('.key');
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+window.addEventListener('keydown', playsound);
+
+</script>
 
 </body>
 </html>
